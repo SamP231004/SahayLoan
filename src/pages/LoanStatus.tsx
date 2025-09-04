@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, Clock, AlertCircle, ArrowRight, Phone, Download } from 'lucide-react';
 import { useParams, Link } from 'react-router-dom';
 
-const LoanStatus: React.FC = () => {
+interface LoanStatusProps {
+  language: 'hi' | 'en';
+  setLanguage: (lang: 'hi' | 'en') => void;
+}
+
+const LoanStatus: React.FC<LoanStatusProps> = ({ language, setLanguage }) => {
   const { loanId } = useParams();
-  const [loanStatus, setLoanStatus] = useState({
+  const loanStatus = {
     id: loanId,
     amount: 50000,
     status: 'processing',
@@ -22,7 +27,7 @@ const LoanStatus: React.FC = () => {
       phone: '+91 1800-XXX-XXXX',
       email: 'support@sahayloan.com'
     }
-  });
+  };
 
   useEffect(() => {
     // Simulate real-time updates

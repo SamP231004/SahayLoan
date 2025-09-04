@@ -1,38 +1,144 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Shield, Clock, Smartphone, CheckCircle, Star, Users, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import ScrollReveal from '../components/ScrollReveal';
 import AnimatedCounter from '../components/AnimatedCounter';
+import LanguageToggle from '../components/LanguageToggle';
 
-const LandingPage: React.FC = () => {
+interface LandingPageProps {
+  language: 'hi' | 'en';
+  setLanguage: (lang: 'hi' | 'en') => void;
+}
+
+const LandingPage: React.FC<LandingPageProps> = ({ language, setLanguage }) => {
+  // Translations
+  const t = {
+    hi: {
+      home: "होम",
+      heroTitle1: "गांव से शहर तक,",
+      heroTitle2: "आपका लोन पार्टनर",
+      heroDesc: "AI की मदद से सिर्फ 2 मिनट में लोन अप्रूवल पाएं। कोई कागजी कार्रवाई नहीं, कोई लंबी प्रक्रिया नहीं।",
+      applyNow: "अभी अप्लाई करें",
+      watchVideo: "वीडियो देखें",
+      calculator: "लोन कैलकुलेटर",
+      loanAmount: "लोन अमाउंट",
+      monthlyEmi: "मंथली EMI",
+      fullyEligible: "पूरी तरह अप्रूवल योग्य",
+      happyCustomers: "खुश ग्राहक",
+      approvalRate: "अप्रूवल रेट",
+      customerRating: "कस्टमर रेटिंग",
+      whyChoose: "क्यों चुनें SahayLoan?",
+      whyDesc: "आधुनिक तकनीक के साथ पारंपरिक विश्वास को मिलाकर बनाया गया है",
+      benefitsTitle: "आपको मिलते हैं ये सभी फायदे",
+      benefits: [
+        "कोई छुपी हुई फीस नहीं",
+        "कम ब्याज दर",
+        "फ्लेक्सिबल EMI",
+        "तुरंत पैसा ट्रांसफर"
+      ],
+      startToday: "आज ही शुरू करें",
+      approval2min: "✓ केवल 2 मिनट में अप्रूवल",
+      noHidden: "✓ कोई हिडन चार्ज नहीं",
+      instantMoney: "✓ तुरंत पैसा अकाउंट में",
+      ctaTitle: "क्या आप तैयार हैं अपने सपनों को पूरा करने के लिए?",
+      ctaDesc: "लाखों लोग पहले से ही SahayLoan का भरोसा कर रहे हैं। अब आपकी बारी है।",
+      applyLoan: "लोन के लिए अप्लाई करें",
+      checkStatus: "लोन स्टेटस चेक करें",
+      features: [
+        {
+          title: "2 मिनट में अप्रूवल",
+          desc: "AI तकनीक से तुरंत लोन अप्रूवल मिलता है"
+        },
+        {
+          title: "100% सुरक्षित",
+          desc: "आपकी जानकारी बिल्कुल सुरक्षित रहती है"
+        },
+        {
+          title: "आसान प्रक्रिया",
+          desc: "कम डिजिटल नॉलेज वालों के लिए भी आसान"
+        }
+      ]
+    },
+    en: {
+      home: "Home",
+      heroTitle1: "From Village to City,",
+      heroTitle2: "Your Loan Partner",
+      heroDesc: "Get loan approval in just 2 minutes with AI. No paperwork, no lengthy process.",
+      applyNow: "Apply Now",
+      watchVideo: "Watch Video",
+      calculator: "Loan Calculator",
+      loanAmount: "Loan Amount",
+      monthlyEmi: "Monthly EMI",
+      fullyEligible: "Fully Eligible",
+      happyCustomers: "Happy Customers",
+      approvalRate: "Approval Rate",
+      customerRating: "Customer Rating",
+      whyChoose: "Why Choose SahayLoan?",
+      whyDesc: "Built by blending modern technology with traditional trust",
+      benefitsTitle: "You Get All These Benefits",
+      benefits: [
+        "No hidden fees",
+        "Low interest rate",
+        "Flexible EMI",
+        "Instant money transfer"
+      ],
+      startToday: "Start Today",
+      approval2min: "✓ Approval in just 2 minutes",
+      noHidden: "✓ No hidden charges",
+      instantMoney: "✓ Instant money in account",
+      ctaTitle: "Ready to fulfill your dreams?",
+      ctaDesc: "Millions already trust SahayLoan. Now it's your turn.",
+      applyLoan: "Apply for Loan",
+      checkStatus: "Check Loan Status",
+      features: [
+        {
+          title: "2-Minute Approval",
+          desc: "Instant loan approval with AI technology"
+        },
+        {
+          title: "100% Secure",
+          desc: "Your information is completely safe"
+        },
+        {
+          title: "Easy Process",
+          desc: "Easy even for those with little digital knowledge"
+        }
+      ]
+    }
+  };
+
   const features = [
     {
       icon: <Clock className="h-8 w-8" />,
-      title: "2 मिनट में अप्रूवल",
-      description: "AI तकनीक से तुरंत लोन अप्रूवल मिलता है"
+      title: t[language].features[0].title,
+      description: t[language].features[0].desc
     },
     {
       icon: <Shield className="h-8 w-8" />,
-      title: "100% सुरक्षित",
-      description: "आपकी जानकारी बिल्कुल सुरक्षित रहती है"
+      title: t[language].features[1].title,
+      description: t[language].features[1].desc
     },
     {
       icon: <Smartphone className="h-8 w-8" />,
-      title: "आसान प्रक्रिया",
-      description: "कम डिजिटल नॉलेज वालों के लिए भी आसान"
+      title: t[language].features[2].title,
+      description: t[language].features[2].desc
     }
   ];
 
-  const benefits = [
-    "कोई छुपी हुई फीस नहीं",
-    "कम ब्याज दर",
-    "फ्लेक्सिबल EMI",
-    "तुरंत पैसा ट्रांसफर"
-  ];
+  const benefits = t[language].benefits;
+
+  useEffect(() => {
+    document.title =
+      language === 'hi'
+        ? 'ग्रामीण भारत के लिए AI-पावर्ड लेंडिंग प्लेटफॉर्म'
+        : 'AI-Powered Lending Platform for Rural India';
+  }, [language]);
 
   return (
     <div className="min-h-screen">
+      {/* Language Toggle */}
+      {/* Remove local LanguageToggle, now in Header */}
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-green-600 via-green-500 to-blue-600">
         <div className="absolute inset-0 bg-black/20"></div>
@@ -44,13 +150,12 @@ const LandingPage: React.FC = () => {
               transition={{ duration: 0.8 }}
             >
               <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                गांव से शहर तक,
+                {t[language].heroTitle1}
                 <br />
-                <span className="text-yellow-300">आपका लोन पार्टनर</span>
+                <span className="text-yellow-300">{t[language].heroTitle2}</span>
               </h1>
               <p className="text-xl text-green-100 mb-8 max-w-lg">
-                AI की मदद से सिर्फ 2 मिनट में लोन अप्रूवल पाएं। 
-                कोई कागजी कार्रवाई नहीं, कोई लंबी प्रक्रिया नहीं।
+                {t[language].heroDesc}
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/apply">
@@ -59,7 +164,7 @@ const LandingPage: React.FC = () => {
                     whileTap={{ scale: 0.95 }}
                     className="bg-white text-green-600 px-8 py-4 rounded-xl font-semibold text-lg shadow-xl flex items-center justify-center space-x-2 w-full sm:w-auto"
                   >
-                    <span>अभी अप्लाई करें</span>
+                    <span>{t[language].applyNow}</span>
                     <ArrowRight className="h-5 w-5" />
                   </motion.button>
                 </Link>
@@ -68,7 +173,7 @@ const LandingPage: React.FC = () => {
                   whileTap={{ scale: 0.95 }}
                   className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white hover:text-green-600 transition-colors w-full sm:w-auto"
                 >
-                  वीडियो देखें
+                  {t[language].watchVideo}
                 </motion.button>
               </div>
             </motion.div>
@@ -81,14 +186,14 @@ const LandingPage: React.FC = () => {
             >
               <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20">
                 <div className="text-center space-y-6">
-                  <h3 className="text-2xl font-semibold text-white mb-4">लोन कैलकुलेटर</h3>
+                  <h3 className="text-2xl font-semibold text-white mb-4">{t[language].calculator}</h3>
                   <div className="space-y-4">
                     <div className="bg-white/20 rounded-lg p-4">
-                      <p className="text-white/80 text-sm">लोन अमाउंट</p>
+                      <p className="text-white/80 text-sm">{t[language].loanAmount}</p>
                       <p className="text-2xl font-bold text-white">₹50,000</p>
                     </div>
                     <div className="bg-white/20 rounded-lg p-4">
-                      <p className="text-white/80 text-sm">मंथली EMI</p>
+                      <p className="text-white/80 text-sm">{t[language].monthlyEmi}</p>
                       <p className="text-2xl font-bold text-yellow-300">₹4,247</p>
                     </div>
                   </div>
@@ -97,7 +202,7 @@ const LandingPage: React.FC = () => {
                     className="bg-green-700 text-white px-6 py-3 rounded-lg cursor-pointer"
                   >
                     <CheckCircle className="h-5 w-5 mx-auto mb-1" />
-                    <p className="font-medium">पूरी तरह अप्रूवल योग्य</p>
+                    <p className="font-medium">{t[language].fullyEligible}</p>
                   </motion.div>
                 </div>
               </div>
@@ -118,7 +223,7 @@ const LandingPage: React.FC = () => {
                 <div className="text-4xl font-bold text-gray-900 mb-2">
                   <AnimatedCounter end={1000000} suffix="+" duration={2} />
                 </div>
-                <p className="text-gray-600">खुश ग्राहक</p>
+                <p className="text-gray-600">{t[language].happyCustomers}</p>
               </div>
               <div>
                 <div className="flex items-center justify-center mb-4">
@@ -127,7 +232,7 @@ const LandingPage: React.FC = () => {
                 <div className="text-4xl font-bold text-gray-900 mb-2">
                   <AnimatedCounter end={99} suffix="%" duration={2} />
                 </div>
-                <p className="text-gray-600">अप्रूवल रेट</p>
+                <p className="text-gray-600">{t[language].approvalRate}</p>
               </div>
               <div>
                 <div className="flex items-center justify-center mb-4">
@@ -136,7 +241,7 @@ const LandingPage: React.FC = () => {
                 <div className="text-4xl font-bold text-gray-900 mb-2">
                   <AnimatedCounter end={4.8} suffix="/5" duration={2} decimals={1} />
                 </div>
-                <p className="text-gray-600">कस्टमर रेटिंग</p>
+                <p className="text-gray-600">{t[language].customerRating}</p>
               </div>
             </div>
           </div>
@@ -149,10 +254,10 @@ const LandingPage: React.FC = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                क्यों चुनें SahayLoan?
+                {t[language].whyChoose}
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                आधुनिक तकनीक के साथ पारंपरिक विश्वास को मिलाकर बनाया गया है
+                {t[language].whyDesc}
               </p>
             </div>
 
@@ -189,7 +294,7 @@ const LandingPage: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                  आपको मिलते हैं ये सभी फायदे
+                  {t[language].benefitsTitle}
                 </h2>
                 <div className="space-y-4">
                   {benefits.map((benefit, index) => (
@@ -214,12 +319,12 @@ const LandingPage: React.FC = () => {
               >
                 <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20">
                   <h3 className="text-2xl font-bold text-white mb-6">
-                    आज ही शुरू करें
+                    {t[language].startToday}
                   </h3>
                   <div className="space-y-4 mb-8">
-                    <p className="text-green-100">✓ केवल 2 मिनट में अप्रूवल</p>
-                    <p className="text-green-100">✓ कोई हिडन चार्ज नहीं</p>
-                    <p className="text-green-100">✓ तुरंत पैसा अकाउंट में</p>
+                    <p className="text-green-100">{t[language].approval2min}</p>
+                    <p className="text-green-100">{t[language].noHidden}</p>
+                    <p className="text-green-100">{t[language].instantMoney}</p>
                   </div>
                   <Link to="/apply">
                     <motion.button
@@ -227,7 +332,7 @@ const LandingPage: React.FC = () => {
                       whileTap={{ scale: 0.95 }}
                       className="bg-white text-green-600 px-8 py-4 rounded-xl font-semibold text-lg shadow-xl w-full"
                     >
-                      अभी अप्लाई करें
+                      {t[language].applyNow}
                     </motion.button>
                   </Link>
                 </div>
@@ -247,11 +352,10 @@ const LandingPage: React.FC = () => {
               transition={{ duration: 0.8 }}
             >
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
-                क्या आप तैयार हैं अपने सपनों को पूरा करने के लिए?
+                {t[language].ctaTitle}
               </h2>
               <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                लाखों लोग पहले से ही SahayLoan का भरोसा कर रहे हैं। 
-                अब आपकी बारी है।
+                {t[language].ctaDesc}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link to="/apply">
@@ -260,7 +364,7 @@ const LandingPage: React.FC = () => {
                     whileTap={{ scale: 0.95 }}
                     className="bg-green-600 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-xl flex items-center justify-center space-x-2 w-full sm:w-auto"
                   >
-                    <span>लोन के लिए अप्लाई करें</span>
+                    <span>{t[language].applyLoan}</span>
                     <ArrowRight className="h-5 w-5" />
                   </motion.button>
                 </Link>
@@ -270,7 +374,7 @@ const LandingPage: React.FC = () => {
                     whileTap={{ scale: 0.95 }}
                     className="border-2 border-gray-600 text-gray-300 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-gray-800 transition-colors w-full sm:w-auto"
                   >
-                    लोन स्टेटस चेक करें
+                    {t[language].checkStatus}
                   </motion.button>
                 </Link>
               </div>

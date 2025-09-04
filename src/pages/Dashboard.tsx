@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { CreditCard, TrendingUp, Clock, CheckCircle, AlertTriangle, Phone, Download, Eye } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import LanguageToggle from '../components/LanguageToggle';
 
-const Dashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('overview');
+interface DashboardProps {
+  language: 'hi' | 'en';
+  setLanguage: (lang: 'hi' | 'en') => void;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({ language, setLanguage }) => {
+  const [activeTab, setActiveTab] = React.useState('overview');
 
   const loanData = {
     activeLoan: {
@@ -50,8 +56,18 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  // Example: Use language state for tab labels (expand as needed)
+  const tabLabels = [
+    { id: 'overview', label: language === 'hi' ? 'ओवरव्यू' : 'Overview' },
+    { id: 'applications', label: language === 'hi' ? 'आवेदन' : 'Applications' },
+    { id: 'payments', label: language === 'hi' ? 'भुगतान' : 'Payments' },
+    { id: 'documents', label: language === 'hi' ? 'दस्तावेज़' : 'Documents' }
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50 py-8">
+      {/* Language Toggle */}
+      {/* Remove local LanguageToggle, now in Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -133,12 +149,7 @@ const Dashboard: React.FC = () => {
         <div className="bg-white rounded-xl shadow-lg">
           <div className="border-b border-gray-200">
             <nav className="flex space-x-8 px-6">
-              {[
-                { id: 'overview', label: 'ओवरव्यू' },
-                { id: 'applications', label: 'आवेदन' },
-                { id: 'payments', label: 'भुगतान' },
-                { id: 'documents', label: 'दस्तावेज़' }
-              ].map((tab) => (
+              {tabLabels.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, ArrowLeft, Upload, Camera, MessageCircle, CheckCircle, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -7,10 +7,15 @@ import ConversationalAssistant from '../components/ConversationalAssistant';
 import LoanCalculator from '../components/LoanCalculator';
 import ProgressBar from '../components/ProgressBar';
 
-const ApplicationFlow: React.FC = () => {
+interface ApplicationFlowProps {
+  language: 'hi' | 'en';
+  setLanguage: (lang: 'hi' | 'en') => void;
+}
+
+const ApplicationFlow: React.FC<ApplicationFlowProps> = ({ language, setLanguage }) => {
   const navigate = useNavigate();
-  const [currentStep, setCurrentStep] = useState(0);
-  const [applicationData, setApplicationData] = useState({
+  const [currentStep, setCurrentStep] = React.useState(0);
+  const [applicationData, setApplicationData] = React.useState({
     personalInfo: {},
     documents: {},
     loanDetails: {},
@@ -128,7 +133,7 @@ const ApplicationFlow: React.FC = () => {
 
 // Step Components
 const PersonalInfoStep: React.FC<any> = ({ data, setData }) => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = React.useState({
     name: '',
     phone: '',
     email: '',
@@ -270,7 +275,7 @@ const LoanDetailsStep: React.FC<any> = ({ data, setData }) => {
 };
 
 const AIVerificationStep: React.FC<any> = ({ data, setData }) => {
-  const [verificationStatus, setVerificationStatus] = useState('processing');
+  const [verificationStatus, setVerificationStatus] = React.useState('processing');
 
   React.useEffect(() => {
     // Simulate AI verification process

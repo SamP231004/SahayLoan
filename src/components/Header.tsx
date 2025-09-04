@@ -2,8 +2,14 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X, User, Bell, CreditCard } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import LanguageToggle from './LanguageToggle';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  lang: 'en' | 'hi';
+  onLangSwitch: (lang: 'en' | 'hi') => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ lang, onLangSwitch }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
 
@@ -25,7 +31,9 @@ const Header: React.FC = () => {
             >
               <CreditCard className="h-6 w-6 text-white" />
             </motion.div>
-            <span className="font-bold text-xl text-gray-900">SahayLoan</span>
+            <span className="font-bold text-xl text-gray-900">
+              {lang === 'en' ? 'Sahay Loan' : 'सहाय लोन'}
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -36,7 +44,7 @@ const Header: React.FC = () => {
                 isActive('/') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
               }`}
             >
-              होम
+              {lang === 'en' ? 'Home' : 'होम'}
             </Link>
             <Link
               to="/apply"
@@ -44,7 +52,7 @@ const Header: React.FC = () => {
                 isActive('/apply') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
               }`}
             >
-              लोन अप्लाई करें
+              {lang === 'en' ? 'Apply Loan' : 'लोन अप्लाई करें'}
             </Link>
             <Link
               to="/dashboard"
@@ -52,12 +60,16 @@ const Header: React.FC = () => {
                 isActive('/dashboard') ? 'text-green-600' : 'text-gray-700 hover:text-green-600'
               }`}
             >
-              डैशबोर्ड
+              {lang === 'en' ? 'Dashboard' : 'डैशबोर्ड'}
             </Link>
           </nav>
 
           {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-6">
+            {/* Language Toggle */}
+            <LanguageToggle language={lang} setLanguage={onLangSwitch} />
+
+            {/* Notifications */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -66,13 +78,15 @@ const Header: React.FC = () => {
               <Bell className="h-5 w-5" />
               <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-400"></span>
             </motion.button>
+
+            {/* Profile */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium"
             >
               <User className="h-4 w-4" />
-              <span>प्रोफाइल</span>
+              <span>{lang === 'en' ? 'Profile' : 'प्रोफाइल'}</span>
             </motion.button>
           </div>
 
@@ -97,28 +111,35 @@ const Header: React.FC = () => {
               className="block text-gray-700 hover:text-green-600 font-medium"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              होम
+              {lang === 'en' ? 'Home' : 'होम'}
             </Link>
             <Link
               to="/apply"
               className="block text-gray-700 hover:text-green-600 font-medium"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              लोन अप्लाई करें
+              {lang === 'en' ? 'Apply Loan' : 'लोन अप्लाई करें'}
             </Link>
             <Link
               to="/dashboard"
               className="block text-gray-700 hover:text-green-600 font-medium"
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              डैशबोर्ड
+              {lang === 'en' ? 'Dashboard' : 'डैशबोर्ड'}
             </Link>
+
+            {/* Profile */}
             <button className="flex items-center space-x-2 text-green-600 font-medium">
               <User className="h-4 w-4" />
-              <span>प्रोफाइल</span>
+              <span>{lang === 'en' ? 'Profile' : 'प्रोफाइल'}</span>
             </button>
           </div>
         </motion.div>
+
+        {/* Add Language Toggle for mobile */}
+        <div className="md:hidden flex justify-end py-2">
+          <LanguageToggle language={lang} setLanguage={onLangSwitch} />
+        </div>
       </div>
     </motion.header>
   );
